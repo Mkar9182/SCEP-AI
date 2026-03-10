@@ -243,7 +243,7 @@ and/or sell copies of the Software.
 
 <div align="center">
 
-**Built with 🛡️ by SCEP AI**
+**Built with HTML by giraffe**
 
 *Security · Cipher · Entropy · Protection — one password at a time.*
 
