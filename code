@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; connect-src 'self'"/>
+<title>SCEP AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --phone-w: 390px;
+  --phone-h: 844px;
+  --bg-page: #0E0E10;
+  --app-bg:  #0A0A0F;
+  --surface: #13131A;
+  --surface2: #1A1A24;
+  --border:  #2A2A38;
+  --border2: #3A3A50;
+  --text:    #F0F0F5;
+  --text-2:  #8888A0;
+  --text-3:  #444460;
+
+  --c-crit:  #FF4060;
+  --c-weak:  #FF8C40;
+  --c-fair:  #FFD040;
+  --c-strong:#cdf75b;
+  --c-excel: #40A8FF;
+
+  --font:    'Outfit', sans-serif;
+  --mono:    'JetBrains Mono', monospace;
+  --ease:    cubic-bezier(0.4,0,0.2,1);
+  --spring:  cubic-bezier(0.34,1.4,0.64,1);
+  --bounce:  cubic-bezier(0.68,-0.55,0.27,1.55);
+}
+
+html, body {
+  height: 100%;
+  font-family: var(--font);
+  background: var(--bg-page);
+  display: flex; align-items: center; justify-content: center;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+
+/* ── DESKTOP SCENE ── */
+.scene {
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  width: 100vw; height: 100vh;
+}
+
+/* ambient glow behind phone */
+.scene-glow {
+  position: absolute;
+  width: 500px; height: 500px; border-radius: 50%;
+  background: radial-gradient(circle, #40A8FF14 0%, transparent 70%);
+  pointer-events: none;
+  animation: glowPulse 6s ease-in-out infinite;
+}
+
+/* ── PHONE SHELL ── */
+.phone {
+  position: relative;
+  width: var(--phone-w);
+  height: var(--phone-h);
+  border-radius: 52px;
+  background: #1C1C22;
+  box-shadow:
+    0 0 0 1.5px #3A3A50,
+    0 0 0 3px #111118,
+    0 0 0 4px #2A2A38,
+    0 30px 80px rgba(0,0,0,0.7),
+    0 0 120px rgba(64,168,255,0.06),
+    inset 0 1px 0 rgba(255,255,255,0.08),
+    inset 0 -1px 0 rgba(0,0,0,0.5);
+  animation: phoneIn 0.8s var(--spring) both;
+  flex-shrink: 0;
+}
+
+/* Side buttons */
+.phone::before {
+  content: '';
+  position: absolute;
+  left: -4px; top: 130px;
+  width: 4px; height: 36px;
+  background: #2A2A38;
+  border-radius: 3px 0 0 3px;
+  box-shadow: 0 50px 0 #2A2A38, 0 96px 0 #2A2A38;
+}
+.phone::after {
+  content: '';
+  position: absolute;
+  right: -4px; top: 160px;
+  width: 4px; height: 64px;
+  background: #2A2A38;
+  border-radius: 0 3px 3px 0;
+}
+
+/* Screen bezel */
+.screen-bezel {
+  position: absolute;
+  inset: 8px;
+  border-radius: 46px;
+  background: var(--app-bg);
+  overflow: hidden;
+}
+
+/* ── STATUS BAR ── */
+.status-bar {
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 50px; padding: 14px 28px 0;
+  display: flex; align-items: center; justify-content: space-between;
+  z-index: 10;
+}
+.status-time { font-size: 15px; font-weight: 600; color: var(--text); letter-spacing: -0.3px; }
+.status-icons { display: flex; align-items: center; gap: 6px; }
+.status-icons svg { color: var(--text); }
+
+/* Dynamic island */
+.dynamic-island {
+  position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+  width: 120px; height: 34px;
+  background: #000;
+  border-radius: 20px;
+  z-index: 20;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 0 1px #1a1a1a;
+}
+
+/* ── APP SCROLL AREA ── */
+.app-scroll {
+  position: absolute;
+  top: 50px; bottom: 0; left: 0; right: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.app-scroll::-webkit-scrollbar { display: none; }
+
+.app-inner {
+  padding: 16px 22px 48px;
+  min-height: calc(100% + 1px);
+}
+
+/* ── APP HEADER ── */
+.app-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 28px;
+  padding-top: 4px;
+  opacity: 0; animation: slideDown 0.5s var(--ease) 0.2s forwards;
+}
+.app-logo { display: flex; align-items: center; gap: 9px; }
+.app-logo-icon {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: linear-gradient(135deg, #40A8FF, #1060CC);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px;
+  box-shadow: 0 4px 16px rgba(64,168,255,0.35);
+}
+.app-logo-text { font-size: 18px; font-weight: 700; color: var(--text); letter-spacing: -0.5px; }
+.app-header-tag {
+  font-family: var(--mono); font-size: 10px; color: var(--text-3);
+  letter-spacing: 0.8px; text-transform: uppercase;
+}
+
+/* ── INPUT CARD ── */
+.input-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 18px;
+  margin-bottom: 14px;
+  opacity: 0; animation: slideUp 0.5s var(--ease) 0.3s forwards;
+}
+.input-card-label {
+  font-size: 11px; font-weight: 500; color: var(--text-3);
+  letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 12px;
+}
+.input-row {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--app-bg);
+  border: 1.5px solid var(--border);
+  border-radius: 14px; padding: 0 14px; height: 50px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.input-row:focus-within {
+  border-color: var(--c-excel);
+  box-shadow: 0 0 0 3px rgba(64,168,255,0.12);
+}
+.input-row input {
+  flex: 1; background: none; border: none; outline: none;
+  font-family: var(--mono); font-size: 13px; color: var(--text);
+  letter-spacing: 0.5px;
+}
+.input-row input::placeholder { font-family: var(--font); font-size: 13px; color: var(--text-3); letter-spacing: 0; }
+.ibtn {
+  background: none; border: none; cursor: pointer;
+  color: var(--text-3); display: flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border-radius: 7px; flex-shrink: 0;
+  transition: color 0.15s, background 0.15s;
+}
+.ibtn:hover { color: var(--text-2); background: var(--surface2); }
+
+.input-foot {
+  display: flex; justify-content: space-between;
+  margin-top: 10px; font-size: 11px; color: var(--text-3); font-weight: 500;
+}
+.i-bits { font-family: var(--mono); transition: color 0.3s; }
+
+/* ── STRENGTH CARD ── */
+.strength-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px; padding: 18px;
+  margin-bottom: 14px;
+  opacity: 0; animation: slideUp 0.5s var(--ease) 0.38s forwards;
+}
+.s-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 16px; }
+.s-left {}
+.s-label { font-size: 10px; font-weight: 600; color: var(--text-3); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 4px; }
+.s-name {
+  font-size: 32px; font-weight: 800; letter-spacing: -1.5px; line-height: 1;
+  color: var(--text-3); transition: color 0.4s var(--ease);
+}
+.s-name.live { color: var(--text); }
+.s-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+
+/* score ring */
+.ring-wrap { position: relative; width: 64px; height: 64px; flex-shrink: 0; }
+.ring-wrap svg { transform: rotate(-90deg); }
+.ring-bg  { fill: none; stroke: var(--border); stroke-width: 5; }
+.ring-fg  { fill: none; stroke-width: 5; stroke-linecap: round; transition: stroke-dashoffset 0.7s var(--spring), stroke 0.4s; }
+.ring-num {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 16px; font-weight: 600; color: var(--text);
+}
+
+/* Bar */
+.s-bar-track {
+  height: 6px; background: var(--border);
+  border-radius: 99px; overflow: hidden;
+}
+.s-bar-fill {
+  height: 100%; border-radius: 99px; width: 0%;
+  transition: width 0.7s var(--spring), background-color 0.4s;
+  position: relative;
+}
+
+/* Crack row */
+.crack-row {
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--surface2); border-radius: 10px;
+  padding: 10px 14px; margin-top: 12px;
+}
+.crack-label-txt { font-size: 11px; color: var(--text-3); font-weight: 500; }
+.crack-val { font-family: var(--mono); font-size: 12px; font-weight: 600; transition: color 0.3s; }
+
+/* Breach row */
+.breach-row {
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--surface2); border-radius: 10px;
+  padding: 10px 14px; margin-top: 8px;
+}
+.breach-label { font-size: 11px; color: var(--text-3); font-weight: 500; }
+.breach-val { font-family: var(--mono); font-size: 12px; font-weight: 600; transition: color 0.3s; }
+
+/* ── STATS GRID ── */
+.stats-grid {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 8px; margin-bottom: 14px;
+  opacity: 0; animation: slideUp 0.5s var(--ease) 0.44s forwards;
+}
+.stat-tile {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 16px; padding: 14px 12px;
+  display: flex; flex-direction: column; gap: 5px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.stat-tile:active { transform: scale(0.97); }
+.stat-label { font-size: 10px; font-weight: 500; color: var(--text-3); letter-spacing: 0.8px; text-transform: uppercase; }
+.stat-val { font-family: var(--mono); font-size: 17px; font-weight: 600; color: var(--text); }
+
+/* ── PILL ROW ── */
+.pills {
+  display: flex; gap: 6px; flex-wrap: wrap;
+  margin-bottom: 14px;
+  opacity: 0; animation: slideUp 0.5s var(--ease) 0.48s forwards;
+}
+.pill {
+  font-size: 11px; font-weight: 600;
+  padding: 6px 12px; border-radius: 99px;
+  border: 1.5px solid transparent;
+  display: flex; align-items: center; gap: 5px;
+  transition: all 0.25s var(--ease);
+}
+.pill.on  { background: var(--text); color: var(--app-bg); border-color: var(--text); }
+.pill.off { background: transparent; color: var(--text-3); border-color: var(--border); }
+.pill-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; flex-shrink:0; }
+
+/* ── ISSUES ── */
+.issues-wrap {
+  margin-bottom: 14px;
+  opacity: 0; animation: slideUp 0.5s var(--ease) 0.5s forwards;
+}
+.issue {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 11px 13px; margin-bottom: 6px;
+  background: rgba(255,64,96,0.07);
+  border: 1px solid rgba(255,64,96,0.18);
+  border-left: 3px solid var(--c-crit);
+  border-radius: 12px;
+  font-size: 12px; color: #FF9AAA; line-height: 1.45;
+  opacity: 0; animation: slideIn 0.25s var(--ease) forwards;
+}
+.issue:last-child { margin-bottom: 0; }
+.issue-i { flex-shrink: 0; margin-top: 1px; color: var(--c-crit); }
+
+/* ── GUESSABILITY ── */
+.guess-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 20px; padding: 18px; margin-bottom: 14px;
+  opacity: 0; animation: slideUp 0.5s var(--ease) 0.505s forwards;
+}
+.guess-row {
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--surface2); border-radius: 10px;
+  padding: 10px 14px; margin-top: 8px;
+}
+.guess-row:first-of-type { margin-top: 0; }
+.guess-label { font-size: 11px; color: var(--text-3); font-weight: 500; }
+.guess-val { font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--text); }
+.guess-sub { font-size: 10px; color: var(--text-3); margin-top: 8px; }
+
+/* ── RECENT CHECKS ── */
+.recent-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 20px; padding: 18px; margin-bottom: 14px;
+  opacity: 0; animation: slideUp 0.5s var(--ease) 0.51s forwards;
+}
+.recent-list { display: flex; flex-direction: column; gap: 6px; }
+.recent-row {
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 12px; padding: 10px 12px;
+  font-size: 12px;
+}
+.recent-pw { font-family: var(--mono); color: var(--text); }
+.recent-time { font-size: 10px; color: var(--text-3); font-weight: 600; letter-spacing: 0.6px; }
+.recent-actions { display: flex; justify-content: flex-end; margin-top: 10px; }
+.clear-btn {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 12px; padding: 6px 10px; cursor: pointer;
+  font-family: var(--font); font-size: 10px; font-weight: 600; color: var(--text-2);
+  transition: background 0.15s, color 0.15s, transform 0.15s;
+}
+.clear-btn:hover { background: var(--border); color: var(--text); }
+.clear-btn:active { transform: scale(0.97); }
+.clear-btn:disabled { opacity: 0.5; cursor: default; }
+.clear-btn:disabled:hover { background: var(--surface2); color: var(--text-2); }
+
+/* ── SUGGESTIONS CARD ── */
+.sugg-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 20px; padding: 18px; margin-bottom: 14px;
+  opacity: 0; animation: slideUp 0.5s var(--ease) 0.52s forwards;
+}
+.card-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 14px;
+}
+.card-title { font-size: 11px; font-weight: 600; color: var(--text-3); letter-spacing: 1.2px; text-transform: uppercase; }
+.regen-btn {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 20px; padding: 5px 11px; cursor: pointer;
+  font-family: var(--font); font-size: 11px; font-weight: 600; color: var(--text-2);
+  display: flex; align-items: center; gap: 5px;
+  transition: background 0.15s, color 0.15s, transform 0.15s;
+}
+.regen-btn:hover { background: var(--border); color: var(--text); }
+.regen-btn:active { transform: scale(0.95); }
+.regen-btn svg { transition: transform 0.4s var(--ease); }
+.regen-btn:active svg { transform: rotate(180deg); }
+
+.sugg-list { display: flex; flex-direction: column; gap: 6px; }
+.sugg-row {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 12px; padding: 11px 12px;
+  transition: border-color 0.2s, background 0.2s;
+}
+.sugg-row:active { background: var(--border); }
+.sugg-pw { flex: 1; font-family: var(--mono); font-size: 12px; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.sugg-bits { font-family: var(--mono); font-size: 10px; color: var(--text-3); flex-shrink: 0; white-space: nowrap; }
+.copy-btn {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; cursor: pointer;
+  width: 30px; height: 30px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-3); flex-shrink: 0;
+  transition: background 0.15s, color 0.15s, transform 0.1s;
+}
+.copy-btn:hover { background: var(--border2); color: var(--text); }
+.copy-btn:active { transform: scale(0.88); }
+
+.divider { border: none; border-top: 1px solid var(--border); margin: 12px 0; }
+
+.phrase-row {
+  display: flex; align-items: center; gap: 10px;
+  background: rgba(64,168,255,0.06);
+  border: 1px solid rgba(64,168,255,0.15);
+  border-radius: 12px; padding: 11px 12px;
+}
+.phrase-tag { font-size: 9px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--c-excel); flex-shrink: 0; }
+.phrase-val { flex: 1; font-family: var(--mono); font-size: 12px; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+
+/* ── HOME BAR ── */
+.home-bar {
+  position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
+  width: 130px; height: 5px; background: rgba(255,255,255,0.25);
+  border-radius: 99px;
+}
+
+/* ── EMPTY STATE ── */
+#empty {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 48px 20px 20px; text-align: center;
+}
+.empty-icon {
+  font-size: 52px; margin-bottom: 20px;
+  display: block; animation: float 4s ease-in-out infinite;
+  filter: drop-shadow(0 0 24px rgba(64,168,255,0.3));
+}
+.empty-h { font-size: 20px; font-weight: 700; color: var(--text); letter-spacing: -0.5px; margin-bottom: 8px; }
+.empty-p { font-size: 13px; color: var(--text-2); line-height: 1.6; max-width: 260px; margin: 0 auto 24px; }
+.empty-chips { display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; }
+.empty-chip { font-family: var(--mono); font-size: 9px; color: var(--text-3); padding: 4px 10px; border-radius: 99px; border: 1px solid var(--border); letter-spacing: 0.5px; }
+
+/* ── TOAST ── */
+#toast {
+  position: absolute; bottom: 28px; left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  background: var(--text); color: var(--app-bg);
+  font-size: 12px; font-weight: 600;
+  padding: 9px 16px; border-radius: 99px;
+  display: flex; align-items: center; gap: 7px;
+  opacity: 0; pointer-events: none; z-index: 100;
+  transition: opacity 0.2s, transform 0.2s;
+  white-space: nowrap;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.t-ok { width: 6px; height: 6px; border-radius: 50%; background: var(--c-strong); flex-shrink: 0; }
+
+.hidden { display: none !important; }
+
+/* ── ANIMATIONS ── */
+@keyframes phoneIn {
+  from { opacity: 0; transform: translateY(40px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-6px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+@keyframes glowPulse {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.6; transform: scale(1.1); }
+}
+
+/* ── RESPONSIVE: on small screens show as full page ── */
+@media (max-width: 500px) or (max-height: 880px) {
+  html, body { align-items: flex-start; overflow: auto; }
+  .scene { min-height: 100vh; height: auto; padding: 20px 0; align-items: flex-start; }
+  .phone { width: 100%; max-width: var(--phone-w); height: auto; border-radius: 0; box-shadow: none; }
+  .phone::before, .phone::after { display: none; }
+  .screen-bezel { position: static; border-radius: 0; height: auto; overflow: visible; }
+  .app-scroll { position: static; overflow: visible; height: auto; }
+  .status-bar { display: none; }
+  .dynamic-island { display: none; }
+  .home-bar { display: none; }
+  .scene-glow { display: none; }
+}
+</style>
+</head>
+<body>
+<div class="scene">
+  <div class="scene-glow"></div>
+
+  <div class="phone">
+    <!-- Dynamic Island -->
+    <div class="dynamic-island"></div>
+
+    <div class="screen-bezel">
+
+      <!-- Status Bar -->
+      <div class="status-bar">
+        <span class="status-time" id="clockTime">9:41</span>
+        <div class="status-icons">
+          <!-- Signal -->
+          <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor">
+            <rect x="0" y="8" width="3" height="4" rx="0.5" opacity="0.4"/>
+            <rect x="4.5" y="5.5" width="3" height="6.5" rx="0.5" opacity="0.6"/>
+            <rect x="9" y="3" width="3" height="9" rx="0.5" opacity="0.8"/>
+            <rect x="13.5" y="0" width="3" height="12" rx="0.5"/>
+          </svg>
+          <!-- Wifi -->
+          <svg width="15" height="12" viewBox="0 0 15 12" fill="currentColor">
+            <path d="M7.5 9.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/>
+            <path d="M2.8 6.3a6.7 6.7 0 0 1 9.4 0" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
+            <path d="M0 3.5a10.5 10.5 0 0 1 15 0" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+          </svg>
+          <!-- Battery -->
+          <svg width="25" height="12" viewBox="0 0 25 12" fill="none">
+            <rect x="0.5" y="0.5" width="21" height="11" rx="3" stroke="currentColor" stroke-opacity="0.5"/>
+            <rect x="2" y="2" width="15" height="8" rx="1.5" fill="currentColor"/>
+            <path d="M23 4v4a2 2 0 0 0 0-4z" fill="currentColor" opacity="0.5"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Scrollable App -->
+      <div class="app-scroll" id="appScroll">
+        <div class="app-inner">
+
+          <!-- App Header -->
+          <div class="app-header">
+            <div class="app-logo">
+              <span class="app-logo-text">SCEP AI</span>
+            </div>
+            <span class="app-header-tag">v1.0</span>
+          </div>
+
+          <!-- Input Card -->
+          <div class="input-card">
+            <div class="input-card-label">Password</div>
+            <div class="input-row" id="inputRow">
+              <input id="pwInput" type="password"
+                placeholder="Enter password to analyze…"
+                autocomplete="off" spellcheck="false" autocorrect="off"/>
+              <button class="ibtn" id="toggleBtn">
+                <svg id="eyeSvg" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              </button>
+              <button class="ibtn hidden" id="clearBtn">
+                <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+              </button>
+            </div>
+            <div class="input-foot">
+              <span id="charCount">0 characters</span>
+              <span class="i-bits" id="bitsLbl" style="color:var(--text-3)">— bits</span>
+            </div>
+          </div>
+
+          <!-- Empty State -->
+          <div id="empty">
+            <span class="empty-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100"><circle cx="50" cy="50" r="47" fill="#FF2020"/><circle cx="50" cy="50" r="47" fill="none" stroke="#CC0000" stroke-width="2"/><circle cx="50" cy="50" r="40" fill="#fff1f1"/><ellipse cx="50" cy="52" rx="13" ry="19" fill="#2ECC40"/><ellipse cx="50" cy="31" rx="9" ry="8" fill="#27AE35"/><line x1="50" y1="34" x2="50" y2="70" stroke="#1a8a27" stroke-width="1.5"/><ellipse cx="50" cy="52" rx="13" ry="19" fill="none" stroke="#1a8a27" stroke-width="1"/><line x1="46" y1="25" x2="38" y2="14" stroke="#1a8a27" stroke-width="2" stroke-linecap="round"/><line x1="54" y1="25" x2="62" y2="14" stroke="#1a8a27" stroke-width="2" stroke-linecap="round"/><circle cx="38" cy="14" r="2" fill="#1a8a27"/><circle cx="62" cy="14" r="2" fill="#1a8a27"/><circle cx="46" cy="30" r="2" fill="#111"/><circle cx="54" cy="30" r="2" fill="#111"/><line x1="37" y1="47" x2="24" y2="42" stroke="#1a8a27" stroke-width="2" stroke-linecap="round"/><line x1="37" y1="53" x2="23" y2="53" stroke="#1a8a27" stroke-width="2" stroke-linecap="round"/><line x1="37" y1="59" x2="25" y2="65" stroke="#1a8a27" stroke-width="2" stroke-linecap="round"/><line x1="63" y1="47" x2="76" y2="42" stroke="#1a8a27" stroke-width="2" stroke-linecap="round"/><line x1="63" y1="53" x2="77" y2="53" stroke="#1a8a27" stroke-width="2" stroke-linecap="round"/><line x1="63" y1="59" x2="75" y2="65" stroke="#1a8a27" stroke-width="2" stroke-linecap="round"/><circle cx="45" cy="48" r="2.5" fill="#1a8a27" opacity="0.5"/><circle cx="55" cy="48" r="2.5" fill="#1a8a27" opacity="0.5"/><circle cx="45" cy="58" r="2" fill="#1a8a27" opacity="0.4"/><circle cx="55" cy="58" r="2" fill="#1a8a27" opacity="0.4"/><line x1="18" y1="18" x2="82" y2="82" stroke="#CC0000" stroke-width="10" stroke-linecap="round"/><line x1="82" y1="18" x2="18" y2="82" stroke="#CC0000" stroke-width="10" stroke-linecap="round"/><circle cx="50" cy="50" r="47" fill="none" stroke="#FF2020" stroke-width="5"/></svg></span>
+            <div class="empty-h">Audit your password</div>
+            <div class="empty-p">Type any password above to get a full entropy analysis and security rating.</div>
+            <div class="empty-chips">
+              <span class="empty-chip">NIST SP 800-63</span>
+              <span class="empty-chip">OWASP</span>
+              <span class="empty-chip">RFC 4086</span>
+            </div>
+          </div>
+
+          <!-- Results -->
+          <div id="results" class="hidden">
+
+            <!-- Strength Card -->
+            <div class="strength-card">
+              <div class="s-top">
+                <div class="s-left">
+                  <div class="s-label">Strength</div>
+                  <div class="s-name live" id="sName">—</div>
+                </div>
+                <div class="s-right">
+                  <div class="ring-wrap">
+                    <svg width="64" height="64" viewBox="0 0 64 64">
+                      <circle class="ring-bg" cx="32" cy="32" r="27"/>
+                      <circle class="ring-fg" id="ringFg" cx="32" cy="32" r="27"
+                        stroke-dasharray="169.6" stroke-dashoffset="169.6"/>
+                    </svg>
+                    <div class="ring-num" id="ringNum">0</div>
+                  </div>
+                </div>
+              </div>
+              <div class="s-bar-track">
+                <div class="s-bar-fill" id="barFill"></div>
+              </div>
+              <div class="crack-row">
+                <span class="crack-label-txt">⏱ Time to crack (GPU)</span>
+                <span class="crack-val" id="crackVal">—</span>
+              </div>
+              <div class="breach-row">
+                <span class="breach-label">Breach check</span>
+                <span class="breach-val" id="breachVal">—</span>
+              </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-grid">
+              <div class="stat-tile">
+                <div class="stat-label">Entropy</div>
+                <div class="stat-val" id="stEnt">—</div>
+              </div>
+              <div class="stat-tile">
+                <div class="stat-label">Pool</div>
+                <div class="stat-val" id="stPool">—</div>
+              </div>
+              <div class="stat-tile">
+                <div class="stat-label">Unique</div>
+                <div class="stat-val" id="stUniq">—</div>
+              </div>
+            </div>
+
+            <!-- Pills -->
+            <div class="pills" id="pills"></div>
+
+            <!-- Issues -->
+            <div id="issuesWrap" class="issues-wrap hidden">
+              <div id="issuesList"></div>
+            </div>
+
+            <!-- Guessability -->
+            <div class="guess-card">
+              <div class="card-header" style="margin-bottom:12px">
+                <span class="card-title">Guessability</span>
+              </div>
+              <div class="guess-row">
+                <span class="guess-label">Online (100 guesses/sec)</span>
+                <span class="guess-val" id="guessOnline">—</span>
+              </div>
+              <div class="guess-row">
+                <span class="guess-label">Offline (1B guesses/sec)</span>
+                <span class="guess-val" id="guessOffline">—</span>
+              </div>
+              <div class="guess-sub" id="guessCount">Estimated guesses: —</div>
+            </div>
+
+            <!-- Recent Checks -->
+            <div class="recent-card">
+              <div class="card-header" style="margin-bottom:12px">
+                <span class="card-title">Recent Checks</span>
+              </div>
+              <div class="recent-list" id="recentList"></div>
+              <div class="recent-actions">
+                <button class="clear-btn" id="clearHistory">Clear history</button>
+              </div>
+            </div>
+
+            <!-- Suggestions -->
+            <div class="sugg-card">
+              <div class="card-header">
+                <span class="card-title">Suggestions</span>
+                <button class="regen-btn" id="regenBtn">
+                  <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <polyline points="23 4 23 10 17 10"/>
+                    <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+                  </svg>
+                  New
+                </button>
+              </div>
+              <div class="sugg-list" id="suggList"></div>
+              <div class="divider"></div>
+              <div class="phrase-row">
+                <span class="phrase-tag">Phrase</span>
+                <span class="phrase-val" id="phraseVal">—</span>
+                <button class="copy-btn" id="phraseBtn">
+                  <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
+                    <rect x="9" y="9" width="13" height="13" rx="2"/>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+          </div><!-- /results -->
+        </div><!-- /app-inner -->
+      </div><!-- /app-scroll -->
+
+      <!-- Home Bar -->
+      <div class="home-bar"></div>
+
+      <!-- Toast -->
+      <div id="toast"><span class="t-ok"></span><span id="toastMsg">Copied</span></div>
+
+    </div><!-- /screen-bezel -->
+  </div><!-- /phone -->
+</div><!-- /scene -->
+
+<script>
+// ── DATA ────────────────────────────────────────
+const SETS=[
+  {id:'lower', label:'a–z', size:26, re:/[a-z]/},
+  {id:'upper', label:'A–Z', size:26, re:/[A-Z]/},
+  {id:'digits',label:'0–9', size:10, re:/[0-9]/},
+  {id:'syms',  label:'#@!', size:32, re:/[^a-zA-Z0-9]/},
+];
+const TIERS=[
+  {name:'Critical', color:'var(--c-crit)',  pct:10,  hex:'#FF4060'},
+  {name:'Weak',     color:'var(--c-weak)',  pct:30,  hex:'#FF8C40'},
+  {name:'Fair',     color:'var(--c-fair)',  pct:55,  hex:'#FFD040'},
+  {name:'Strong',   color:'var(--c-strong)',pct:78,  hex:'#40D090'},
+  {name:'Excellent',color:'var(--c-excel)', pct:100, hex:'#40A8FF'},
+];
+const COMMON=['password','123456','qwerty','abc123','letmein','monkey','dragon',
+  'master','sunshine','princess','welcome','shadow','superman','football',
+  'iloveyou','admin','login','passw0rd','trustno1'];
+const SEQ=['0123','1234','2345','3456','4567','5678','6789','abcd','bcde','qwer','asdf','zxcv'];
+// Offline mock breach list (swap here for API results later)
+const BREACHED=['password','123456','qwerty','abc123','letmein','monkey','dragon','passw0rd','trustno1','iloveyou'];
+const ADJ=['Swift','Blazing','Silent','Cosmic','Velvet','Neon','Crystal','Shadow','Golden','Iron','Solar','Frozen'];
+const NOUN=['Phoenix','Falcon','Ocean','Cipher','Titan','Storm','Eclipse','Nebula','Forge','Circuit','Prism','Nexus'];
+const VERB=['Runs','Flies','Glows','Strikes','Burns','Leaps','Locks','Sparks'];
+const SYM=['!','@','#','$','%'];
+const LC='abcdefghijkmnopqrstuvwxyz',UC='ABCDEFGHJKLMNPQRSTUVWXYZ',DG='23456789',SP='!@#$%^&*-+=?';
+const CAN_HASH=!!(window.crypto && window.crypto.subtle);
+
+// ── UTILS ────────────────────────────────────────
+const $=id=>document.getElementById(id);
+const rand=a=>a[Math.floor(Math.random()*a.length)];
+const rc=s=>s[Math.floor(Math.random()*s.length)];
+const cpIco=`<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
+
+async function hashPw(pw){
+  if(!CAN_HASH) return null;
+  const data=new TextEncoder().encode(pw);
+  const buf=await crypto.subtle.digest('SHA-256', data);
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+
+function genPw(len=20){
+  const pool=LC+UC+DG+SP;
+  let r=rc(LC)+rc(UC)+rc(DG)+rc(SP);
+  while(r.length<len) r+=rc(pool);
+  return [...r].sort(()=>Math.random()-.5).join('');
+}
+function genPhrase(){
+  return `${rand(ADJ)}${rand(VERB)}${rand(NOUN)}${10+Math.floor(Math.random()*90)}${rand(SYM)}`;
+}
+function crackInfo(entropy){
+  const s=Math.pow(2,entropy)/1e9;
+  if(s<1)        return['instantly',   'var(--c-crit)'];
+  if(s<60)       return['< 1 minute',  'var(--c-crit)'];
+  if(s<3600)     return['< 1 hour',    'var(--c-weak)'];
+  if(s<86400)    return['< 1 day',     'var(--c-weak)'];
+  if(s<2592000)  return['< 1 month',   'var(--c-fair)'];
+  if(s<31536000) return['< 1 year',    'var(--c-fair)'];
+  if(s<3.15e12)  return['< 100 years', 'var(--c-strong)'];
+  return          ['infinitely',        'var(--c-excel)'];
+}
+
+function maskPw(pw){
+  if(!pw) return '—';
+  if(pw.length<=2) return pw[0]+'•';
+  return pw[0]+'•'.repeat(Math.min(pw.length-2,8))+pw[pw.length-1];
+}
+function formatGuesses(log10g){
+  if(!isFinite(log10g)) return '—';
+  if(log10g<2) return Math.round(Math.pow(10,log10g)).toString();
+  if(log10g<6) return Math.round(Math.pow(10,log10g)).toLocaleString();
+  return `~10^${log10g.toFixed(1)}`;
+}
+function formatLogSeconds(log10s){
+  if(!isFinite(log10s)) return '—';
+  if(log10s<0) return '< 1s';
+  if(log10s<7.5){
+    const sec=Math.pow(10,log10s);
+    if(sec<60) return `${sec.toFixed(1)}s`;
+    if(sec<3600) return `${(sec/60).toFixed(1)}m`;
+    if(sec<86400) return `${(sec/3600).toFixed(1)}h`;
+    if(sec<31557600) return `${(sec/86400).toFixed(1)}d`;
+    return `${(sec/31557600).toFixed(1)}y`;
+  }
+  const years=Math.pow(10,log10s-7.499);
+  return `${years.toExponential(1)}y`;
+}
+function timeAgo(ts){
+  const s=Math.floor((Date.now()-ts)/1000);
+  if(s<10) return 'just now';
+  if(s<60) return `${s}s ago`;
+  const m=Math.floor(s/60);
+  if(m<60) return `${m}m ago`;
+  const h=Math.floor(m/60);
+  return `${h}h ago`;
+}
+function renderRecent(list){
+  const el=$('recentList');
+  $('clearHistory').disabled=list.length===0;
+  if(!list.length){
+    el.innerHTML='';
+    const row=document.createElement('div');
+    row.className='recent-row';
+    const pw=document.createElement('span');
+    pw.className='recent-pw';
+    pw.textContent='No checks yet';
+    const t=document.createElement('span');
+    t.className='recent-time';
+    t.textContent='—';
+    row.append(pw,t);
+    el.appendChild(row);
+    return;
+  }
+  el.innerHTML='';
+  list.forEach(item=>{
+    const row=document.createElement('div');
+    row.className='recent-row';
+    const pw=document.createElement('span');
+    pw.className='recent-pw';
+    pw.textContent=item.m||'—';
+    const t=document.createElement('span');
+    t.className='recent-time';
+    t.textContent=timeAgo(item.ts);
+    row.append(pw,t);
+    el.appendChild(row);
+  });
+}
+// ── ANALYSIS ────────────────────────────────────
+function analyze(pw){
+  let pool=0, detected=[];
+  SETS.forEach(s=>{ if(s.re.test(pw)){pool+=s.size; detected.push(s.id);} });
+  if(!pool) pool=26;
+  const raw=pw.length*Math.log2(pool);
+  const issues=[];
+  const lo=pw.toLowerCase();
+  if(COMMON.some(w=>lo.includes(w)))        issues.push('Contains a common or dictionary word');
+  if(SEQ.some(s=>lo.includes(s)))           issues.push('Sequential characters found (e.g. 1234, abcd)');
+  const ch=[...pw];
+  if(ch.some((c,i)=>i>=2&&c===ch[i-1]&&c===ch[i-2])) issues.push('3+ repeated characters in a row');
+  if(new Set(pw).size/pw.length<0.4&&pw.length>4) issues.push('Low character diversity');
+  if(pw.length<8)       issues.push('Too short — minimum 8 characters');
+  else if(pw.length<12) issues.push('Short — 12+ characters recommended');
+  const entropy=Math.max(0,raw-issues.length*8);
+  let tier=0;
+  if(entropy>=80) tier=4; else if(entropy>=60) tier=3;
+  else if(entropy>=40) tier=2; else if(entropy>=28) tier=1;
+  const score=Math.min(entropy/80,1);
+  const [crack,crackColor]=crackInfo(entropy);
+  return {entropy,raw,pool,length:pw.length,unique:new Set(pw).size,detected,issues,tier,score,crack,crackColor,rawPwLower:lo};
+}
+
+// ── CLOCK ───────────────────────────────────────
+function updateClock(){
+  const now=new Date();
+  let h=now.getHours(), m=now.getMinutes();
+  const ampm=h>=12?'PM':'AM';
+  h=h%12||12;
+  $('clockTime').textContent=`${h}:${m.toString().padStart(2,'0')}`;
+}
+updateClock(); setInterval(updateClock,10000);
+
+// ── SUGGESTIONS ─────────────────────────────────
+let suggs=[], phrase='';
+function refreshSuggs(){
+  suggs=[genPw(),genPw(),genPw()]; phrase=genPhrase(); renderSuggs();
+}
+function renderSuggs(){
+  $('suggList').innerHTML=suggs.map((pw,i)=>{
+    const a=analyze(pw);
+    return `<div class="sugg-row">
+      <span class="sugg-pw">${pw}</span>
+      <span class="sugg-bits">${a.entropy.toFixed(0)}b</span>
+      <button class="copy-btn" onclick="doCopy('${pw}','Password copied')">${cpIco}</button>
+    </div>`;
+  }).join('');
+  $('phraseVal').textContent=phrase;
+  $('phraseBtn').onclick=()=>doCopy(phrase,'Passphrase copied');
+}
+
+// ── UPDATE UI ────────────────────────────────────
+function update(pw){
+  const hasVal=pw.length>0;
+  $('clearBtn').classList.toggle('hidden',!hasVal);
+  $('charCount').textContent=`${pw.length} char${pw.length!==1?'s':''}`;
+
+  if(!hasVal){
+    reuseFlag=false;
+    breachState='idle';
+    $('empty').classList.remove('hidden');
+    $('results').classList.add('hidden');
+    $('bitsLbl').textContent='— bits';
+    $('bitsLbl').style.color='var(--text-3)';
+    renderRecent(recentPw);
+    return;
+  }
+  $('empty').classList.add('hidden');
+  $('results').classList.remove('hidden');
+
+  const a=analyze(pw); const t=TIERS[a.tier];
+
+  // Bits label
+  $('bitsLbl').textContent=`${a.entropy.toFixed(1)} bits`;
+  $('bitsLbl').style.color=t.color;
+
+  // Strength
+  $('sName').textContent=t.name; $('sName').style.color=t.color;
+
+  // Ring
+  const circ=2*Math.PI*27;
+  const rf=$('ringFg');
+  rf.style.strokeDashoffset=`${circ*(1-a.score)}`;
+  rf.style.stroke=t.hex;
+  $('ringNum').textContent=Math.round(a.score*100);
+
+  // Bar
+  $('barFill').style.width=`${t.pct}%`;
+  $('barFill').style.backgroundColor=t.hex;
+
+  // Crack
+  $('crackVal').textContent=a.crack; $('crackVal').style.color=a.crackColor;
+
+  // Breach (offline mock)
+  let breachTxt='—', breachColor='var(--text-3)';
+  if(breachState==='checking'){ breachTxt='Checking…'; breachColor='var(--text-2)'; }
+  if(breachState==='exposed'){ breachTxt='Exposed'; breachColor='var(--c-crit)'; }
+  if(breachState==='safe'){ breachTxt='Not found'; breachColor='var(--c-strong)'; }
+  if(breachState==='error'){ breachTxt='Unavailable'; breachColor='var(--c-weak)'; }
+  $('breachVal').textContent=breachTxt;
+  $('breachVal').style.color=breachColor;
+
+  // Guessability
+  const log10g=a.entropy*0.30103;
+  const log10Online=log10g-2; // 100 guesses/sec
+  const log10Offline=log10g-9; // 1B guesses/sec
+  $('guessOnline').textContent=formatLogSeconds(log10Online);
+  $('guessOffline').textContent=formatLogSeconds(log10Offline);
+  $('guessCount').textContent=`Estimated guesses: ${formatGuesses(log10g)}`;
+
+  // Stats
+  $('stEnt').textContent=`${a.entropy.toFixed(0)}b`;
+  $('stPool').textContent=`${a.pool}`;
+  $('stUniq').textContent=`${a.unique}`;
+
+  // Pills
+  $('pills').innerHTML=SETS.map(s=>`
+    <div class="pill ${a.detected.includes(s.id)?'on':'off'}">
+      <span class="pill-dot"></span>${s.label}
+    </div>
+  `).join('');
+
+  // Issues
+  const iw=$('issuesWrap');
+  const allIssues=reuseFlag ? [...a.issues, 'Password reused recently'] : a.issues;
+  if(allIssues.length){
+    iw.classList.remove('hidden');
+    $('issuesList').innerHTML=allIssues.map((iss,i)=>`
+      <div class="issue" style="animation-delay:${i*0.06}s">
+        <span class="issue-i">
+          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+        </span>${iss}
+      </div>`).join('');
+  } else { iw.classList.add('hidden'); }
+
+  // Recent list
+  renderRecent(recentPw);
+}
+
+// ── COPY ────────────────────────────────────────
+function doCopy(txt,msg='Copied'){
+  if(navigator.clipboard && window.isSecureContext){
+    navigator.clipboard.writeText(txt).then(()=>showToast(msg)).catch(()=>fallbackCopy(txt,msg));
+  } else {
+    fallbackCopy(txt,msg);
+  }
+}
+function fallbackCopy(txt,msg){
+  const ta=document.createElement('textarea');
+  ta.value=txt;
+  ta.setAttribute('readonly','');
+  ta.style.position='fixed';
+  ta.style.opacity='0';
+  document.body.appendChild(ta);
+  ta.select();
+  let ok=false;
+  try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+  document.body.removeChild(ta);
+  showToast(ok?msg:'Failed');
+}
+let toastT;
+function showToast(msg){
+  const el=$('toast'); $('toastMsg').textContent=msg;
+  el.classList.add('show'); clearTimeout(toastT);
+  toastT=setTimeout(()=>el.classList.remove('show'),2000);
+}
+
+// ── EVENTS ──────────────────────────────────────
+let visible=false;
+let reuseFlag=false;
+let reuseTimer;
+let breachState='idle';
+let breachTimer;
+const recentPw=[];
+const input=$('pwInput');
+input.addEventListener('input',()=>{
+  const pw=input.value;
+  update(pw);
+  clearTimeout(reuseTimer);
+  clearTimeout(breachTimer);
+  reuseTimer=setTimeout(async()=>{
+    const lo=pw.toLowerCase();
+    if(!CAN_HASH || !lo){
+      reuseFlag=false;
+      update(pw);
+      return;
+    }
+    const h=await hashPw(lo);
+    reuseFlag=!!h && recentPw.some(r=>r.h===h);
+    if(h && recentPw[recentPw.length-1]?.h!==h){
+      const item={h, m:maskPw(pw), ts:Date.now()};
+      recentPw.push(item);
+      if(recentPw.length>10) recentPw.shift();
+    }
+    update(pw);
+  },400);
+  breachTimer=setTimeout(async()=>{
+    if(!pw){ breachState='idle'; update(''); return; }
+    breachState='checking'; update(pw);
+    try{
+      const exposed=BREACHED.includes(pw.toLowerCase());
+      breachState=exposed?'exposed':'safe';
+    } catch(e){
+      breachState='error';
+    }
+    update(pw);
+  },450);
+});
+$('toggleBtn').addEventListener('click',()=>{
+  visible=!visible; input.type=visible?'text':'password';
+  $('eyeSvg').innerHTML=visible
+    ?`<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>`
+    :`<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>`;
+});
+$('clearBtn').addEventListener('click',()=>{ input.value=''; update(''); input.focus(); });
+$('regenBtn').addEventListener('click', refreshSuggs);
+$('clearHistory').addEventListener('click',()=>{
+  recentPw.length=0;
+  update(input.value);
+});
+
+// ── INIT ────────────────────────────────────────
+renderRecent(recentPw);
+refreshSuggs();
+</script>
+</body>
+</html>
