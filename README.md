@@ -39,7 +39,7 @@
 - **Real-time Shannon entropy calculation** — measures password strength in bits as you type
 - **Character pool detection** — identifies lowercase, uppercase, digits, and symbols in use
 - **5-tier strength rating** — Critical · Weak · Fair · Strong · Excellent
-- **GPU crack-time estimation** — calculates how long a 1 billion guesses/sec attack would take
+- **GPU crack-time estimation** — calculates how long a 1 billion guesses/sec attack would take offline and online
 - **Animated score ring** — circular progress indicator that updates live
 
 ### 🚨 Vulnerability Detection
@@ -245,9 +245,7 @@ and/or sell copies of the Software.
 
 <br/>
 
-[![GitHub stars](https://img.shields.io/github/stars/jaykunknown/scep-ai?style=social)](https://github.com/jaykunknown/scep-ai)
-[![GitHub forks](https://img.shields.io/github/forks/jaykunknown/scep-ai?style=social)](https://github.com/jaykunknown/scep-ai/fork)
-
-</div>
+[![GitHub stars](https://img.shields.io/github/stars/jaykunknown/SCEP-AI?style=social)](https://github.com/jaykunknown/SCEP-AI)
+[![GitHub forks](https://img.shields.io/github/forks/jaykunknown/SCEP-AI?style=social)](https://github.com/jaykunknown/SCEP-AI/fork)
 
 </div>
