@@ -32,9 +32,8 @@
 ---
 </div>
 
-<div align="center">
-<img src="https://github.com/user-attachments/assets/f6333821-081b-4750-895f-7cba462bde42" alt="scepai1" width="430"/> <img src="https://github.com/user-attachments/assets/99b33c53-17a0-40d4-8078-d940786ae693" alt="scepai2" width="430"/>
-</div>
+
+<img src="https://github.com/user-attachments/assets/f6333821-081b-4750-895f-7cba462bde42" alt="scepai1" width="400"/> <img src="https://github.com/user-attachments/assets/99b33c53-17a0-40d4-8078-d940786ae693" alt="scepai2" width="400"/>
 
 
 ## ✨ Features
