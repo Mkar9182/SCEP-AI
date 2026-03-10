@@ -245,7 +245,7 @@ and/or sell copies of the Software.
 
 <br/>
 
-[![GitHub stars](https://img.shields.io/github/stars/jaykunknown/SCEP-AI?style=social)](https://github.com/jaykunknown/SCEP-AI)
-[![GitHub forks](https://img.shields.io/github/forks/jaykunknown/SCEP-AI?style=social)](https://github.com/jaykunknown/SCEP-AI/fork)
+[![GitHub stars](https://img.shields.io/github/stars/jakyunknown/SCEP-AI?style=social)](https://github.com/jakyunknown/SCEP-AI)
+[![GitHub forks](https://img.shields.io/github/forks/jakyunknown/SCEP-AI?style=social)](https://github.com/jakyunknown/SCEP-AI/fork)
 
 </div>
