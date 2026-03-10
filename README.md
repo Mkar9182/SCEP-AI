@@ -1,14 +1,14 @@
 <div align="center">
 
 <br/>
-
+```
 ███████╗ ██████╗███████╗██████╗      █████╗ ██╗
 ██╔════╝██╔════╝██╔════╝██╔══██╗    ██╔══██╗██║
 ███████╗██║     █████╗  ██████╔╝    ███████║██║
 ╚════██║██║     ██╔══╝  ██╔═══╝     ██╔══██║██║
 ███████║╚██████╗███████╗██║         ██║  ██║██║
 ╚══════╝ ╚═════╝╚══════╝╚═╝         ╚═╝  ╚═╝╚═╝
-
+```
 
 ### 🛡️ Security · Cipher · Entropy · Protection — AI Powered
 
@@ -246,7 +246,9 @@ and/or sell copies of the Software.
 
 <br/>
 
-[![GitHub stars](https://img.shields.io/github/stars/yourusername/scep-ai?style=social)](https://github.com/yourusername/scep-ai)
-[![GitHub forks](https://img.shields.io/github/forks/yourusername/scep-ai?style=social)](https://github.com/yourusername/scep-ai/fork)
+[![GitHub stars](https://img.shields.io/github/stars/jaykunknown/scep-ai?style=social)](https://github.com/jaykunknown/scep-ai)
+[![GitHub forks](https://img.shields.io/github/forks/jaykunknown/scep-ai?style=social)](https://github.com/jaykunknown/scep-ai/fork)
+
+</div>
 
 </div>
