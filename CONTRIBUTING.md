@@ -1,34 +1,13 @@
-<div align="center">
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                                                                  │
-│    ██████  ██████ ███████ ██████      █████  ██                 │
-│   ██      ██      ██      ██   ██    ██   ██ ██                 │
-│    █████  ██      █████   ██████     ███████ ██                 │
-│        ██ ██      ██      ██         ██   ██ ██                 │
-│   ██████   ██████ ███████ ██         ██   ██ ██                 │
-│                                                                  │
-│          ┌──────────────────────────────────┐                   │
-│          │  🔐  PASSWORD ENTROPY CHECKER  🔐 │                   │
-│          │        P O W E R E D  B Y  A I   │                   │
-│          └──────────────────────────────────┘                   │
-│                                                                  │
-│   ░░░░░░░░░  ENTROPY LEVEL  ████████████████░░░░  87 bits  ░░  │
-│                                                                  │
-└─────────────────────────────────────────────────────────────────┘
-```
 
 <br>
 
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-00ff88.svg?style=for-the-badge&logo=github)](../../pulls)
-[![Contributors](https://img.shields.io/github/contributors/your-username/SCEP-AI?style=for-the-badge&color=ff6b6b&logo=github)](../../graphs/contributors)
-[![Issues](https://img.shields.io/github/issues/your-username/SCEP-AI?style=for-the-badge&color=ffd93d)](../../issues)
-[![License](https://img.shields.io/github/license/your-username/SCEP-AI?style=for-the-badge&color=6bcbff)](./LICENSE)
+[![Contributors](https://img.shields.io/github/contributors/jakyunknown/SCEP-AI?style=for-the-badge&color=ff6b6b&logo=github)](../../graphs/contributors)
+[![Issues](https://img.shields.io/github/issues/jakyunknown/SCEP-AI?style=for-the-badge&color=ffd93d)](../../issues)
+[![License](https://img.shields.io/github/license/jakyunkown/SCEP-AI?style=for-the-badge&color=6bcbff)](./LICENSE)
 
-```
-[ S ]ecure  [ C ]heck  [ E ]ntropy  [ P ]assword
-```
+
 
 > *"Weak passwords are the #1 attack vector. Let's fix that — together."*
 
