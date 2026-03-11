@@ -4,18 +4,10 @@
 <span style="color:#0f4a0f;">0 1 0 0 1 0 1 1  0 1 1 0 1 0 0 1  1 0 0 1 1 0 1 0  0 1 0 0 1 0 1 1  0 1 1 0 1 0 0 1  1 0 0 1 1 0 1 0</span>
 <span style="color:#155215;">1 1 0 0 1 0 1 0  0 0 1 1 0 1 0 1  1 0 1 1 0 1 0 0  1 1 0 0 1 0 1 0  0 0 1 1 0 1 0 1  1 0 1 0 0 1 1 0</span>
 <span style="color:#1a6b1a;">0 0 1 1 0 1 0 1  1 0 1 0 0 1 1 0  0 1 0 0 1 0 1 1  0 0 1 1 0 1 0 1  1 0 1 0 0 1 1 0  0 1 0 1 1 0 1 0</span>
+<span style="color:#155215;">1 1 0 0 1 0 1 0  0 0 1 1 0 1 0 1  1 0 1 1 0 1 0 0  1 1 0 0 1 0 1 0  0 0 1 1 0 1 0 1  1 0 1 0 0 1 1 0</span>
+<span style="color:#1a6b1a;">0 0 1 1 0 1 0 1  1 0 1 0 0 1 1 0  0 1 0 0 1 0 1 1  0 0 1 1 0 1 0 1  1 0 1 0 0 1 1 0  0 1 0 1 1 0 1 0</span>
 <span style="color:#22882a;">1 0 1 0 1 1 0 0  1 1 0 1 0 0 1 0  0 1 1 0 1 0 0 1  1 0 1 0 1 1 0 0  1 1 0 1 0 0 1 0  0 1 1 0 0 1 0 1</span>
 <span style="color:#2aa832;">0 1 1 0 0 1 0 1  0 0 1 0 1 1 0 1  1 0 0 1 0 1 1 0  0 1 1 0 0 1 0 1  0 0 1 0 1 1 0 1  1 0 1 0 1 0 0 1</span>
-<span style="color:#39c43f;">                                                                                                        </span>
-<span style="color:#39ff14;font-size:15px;letter-spacing:4px;">          🔐   S C E P - A I  ·  P A S S W O R D   E N T R O P Y   🔐          </span>
-<span style="color:#39c43f;letter-spacing:6px;">                   ·  ·  ·   P O W E R E D   B Y   A I   ·  ·  ·                </span>
-<span style="color:#39c43f;">                                                                                                        </span>
-<span style="color:#2aa832;">1 0 0 1 0 1 1 0  0 1 0 1 1 0 1 0  1 1 0 0 1 0 1 0  1 0 0 1 0 1 1 0  0 1 0 1 1 0 1 0  1 0 1 0 0 1 1 0</span>
-<span style="color:#22882a;">0 1 0 1 0 0 1 1  1 0 1 0 0 1 0 1  0 0 1 1 0 1 1 0  0 1 0 1 0 0 1 1  1 0 1 0 0 1 0 1  0 1 1 0 1 0 0 1</span>
-<span style="color:#1a6b1a;">1 1 0 1 0 0 1 0  0 1 1 0 1 0 0 1  1 0 0 1 1 0 1 0  1 1 0 1 0 0 1 0  0 1 1 0 1 0 0 1  1 0 0 1 0 1 1 0</span>
-<span style="color:#155215;">0 0 1 0 1 1 0 1  1 0 0 1 0 1 1 0  0 1 0 0 1 0 1 1  0 0 1 0 1 1 0 1  1 0 0 1 0 1 1 0  0 1 0 1 0 0 1 1</span>
-<span style="color:#0f4a0f;">1 0 1 1 0 1 0 0  0 1 0 1 0 0 1 1  1 0 1 0 1 1 0 0  1 0 1 1 0 1 0 0  0 1 0 1 0 0 1 1  1 0 1 1 0 0 1 0</span>
-<span style="color:#0d3b0d;">0 1 0 0 1 0 1 1  1 1 0 0 1 0 1 0  0 0 1 1 0 1 0 1  0 1 0 0 1 0 1 1  1 1 0 0 1 0 1 0  0 0 1 0 1 1 0 1</span>
 </pre>
 <br>
 
